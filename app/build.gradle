@@ -1,0 +1,41 @@
+apply plugin: 'com.android.model.application'
+
+model {
+    android{
+        compileSdkVersion = 23
+        buildToolsVersion = '23.0.2'
+        defaultConfig.with {
+            applicationId = "com.sunshuzhou.experiment_miracl"
+            minSdkVersion.apiLevel = 16
+            targetSdkVersion.apiLevel = 23
+            versionCode = 1
+            versionName = "1.0"
+        }
+    }
+
+    android.buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles.add(file('proguard-rules.txt'))
+        }
+        debug {
+            ndk.with {
+                debuggable = true;
+            }
+        }
+    }
+
+    android.ndk {
+        moduleName = "experiment"
+        CFlags.add("-O2")
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    compile 'com.madgag.spongycastle:core:1.53.0.0'
+    compile 'com.madgag.spongycastle:prov:1.53.0.0'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+}

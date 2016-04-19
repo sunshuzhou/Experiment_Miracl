@@ -1,0 +1,3 @@
+set solib-search-path /Users/sunshuzhou/AndroidStudioProjects/Experiment_Miracl/app/src/main/obj/local/armeabi
+source /Users/sunshuzhou/Documents/Android-SDK/ndk-bundle/prebuilt/common/gdb/common.setup
+directory /Users/sunshuzhou/Documents/Android-SDK/ndk-bundle/platforms/android-21/arch-arm/usr/include /Users/sunshuzhou/AndroidStudioProjects/Experiment_Miracl/app/src/main/jni/include /Users/sunshuzhou/Documents/Android-SDK/ndk-bundle/sources/cxx-stl/system

@@ -1,0 +1,63 @@
+//
+// Created by 孙书洲 on 15/11/17.
+//
+
+#include <jni.h>
+#include <stdio.h>
+#include <openssl/hmac.h>
+#include <string.h>
+#include "miracl/miracl.h"
+
+char bChar[] = "730750818665451459101842416358141509827966381903";
+char pChar[] = "1461501637330902918203684832716283019655932542983";
+char nChar[] = "1461501637330902918203683121663422642150372888183";
+char gxChar[] = "1012746360306660395378213658174943965595577675415";
+char gyChar[] = "75650897218223448951292550565147513994140144567";
+char hxChar[] = "224936487907180308547085034490832824824803093939";
+char hyChar[] = "543652889493671517302050399526044299167343581063";
+big ECC_N;
+epoint *ECC_G, *ECC_H;
+
+JNIEXPORT jint JNICALL
+Java_com_sunshuzhou_experiment_miracl_MainActivity_valueFromJNI (JNIEnv* env,
+                                                                jobject thiz ) {
+
+}
+
+void envirment_init() {
+    big a, b, p, x, y;
+
+#if MIRACL==16
+    #ifdef MR_FLASH
+    miracl *mip = mirsys(500,10);    /* initialise system to base 10, 500 digits per "big" */
+#else
+    miracl *mip = mirsys(5000,10);   /* bigger numbers possible if no flash arithmetic     */
+#endif
+#else
+    miracl *mip = mirsys(5000,10);  /* 5000 digits per "big" */
+#endif
+    // init
+    a = mirvar(-3);
+    b = mirvar(0);
+    ECC_N = mirvar(0);
+    p = mirvar(0);
+    r = mirvar(0);
+    ECC_G = epoint_init();
+    ECC_H = epoint_init();
+
+    mip->IOBASE = 10;
+    // init curve
+    cinstr(b, bChar);
+    cinstr(ECC_N, nChar);
+    cinstr(p, pChar);
+    ecurve_init(a, b, p, MR_PROJECTIVE);
+
+    // init point:  G, H
+    cinstr(x, gxChar);
+    cinstr(y, gyChar);
+    epoint_set(x, y, 0, G);
+    cinstr(x, hxChar);
+    cinstr(y, hyChar);
+    epoint_set(x, y, 0, H);
+    mip->IOBAE = 16;
+}
